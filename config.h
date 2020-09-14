@@ -56,6 +56,7 @@ static const Rule rules[] = {
         { "TelegramDesktop",    NULL,           NULL,           1 << 1,     0,          0,          0,          2 },
         { "Calculator",         NULL,           NULL,           0,          1,          0,          0,         -1 },
         { "xfreerdp",           NULL,           NULL,           0,          1,          0,          1,         -1 },
+        { NULL,                 "oriwotw.exe",  NULL,           0,          1,          0,          1,         -1 },
         { "Yad",                NULL,           NULL,           0,          1,          0,          1,         -1 },
         { NULL,                 NULL,           "Event Tester", 0,          1,          0,          1,         -1 }, /* xev */
 };
@@ -92,11 +93,11 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-h", "30", "-fn"
 static const char *termcmd[]  = { "st", NULL };
 static const char *rangercmd[]  = { "st", "ranger", "--cmd=tab_close", NULL };
 static const char *dwmbindings[] = { "st", "dwmbindings", NULL };
-static const char *printscreen[] = { "/home/jscherrer/.local/bin/printscreen", NULL }; 
-static const char *incrvol[] = { "/home/jscherrer/.local/bin/dwmscripts/volmgr", "--change-volume", "+1", NULL };
-static const char *decrvol[] = { "/home/jscherrer/.local/bin/dwmscripts/volmgr", "--change-volume", "-1", NULL };
-static const char *mutevol[] = { "/home/jscherrer/.local/bin/dwmscripts/volmgr", "--toggle-mute", NULL };
-static const char *shutrest[] = { "/home/jscherrer/.local/bin/dwmscripts/shut-rest", NULL };
+static const char *printscreen[] = { "printscreen", NULL }; 
+static const char *incrvol[] = { "volmgr", "--change-volume", "+1", NULL };
+static const char *decrvol[] = { "volmgr", "--change-volume", "-1", NULL };
+static const char *mutevol[] = { "volmgr", "--toggle-mute", NULL };
+static const char *shutrest[] = { "shut-rest", NULL };
 static const char *lockscreen[] = { "slock", NULL };
 
 static Key keys[] = {
@@ -111,6 +112,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
+    { MODKEY,                       XK_a,      setmfact,       {.f = +0.05} },
 	{ MODKEY|Mod1Mask,              XK_h,      incrgaps,       {.i = +1 } },
 	{ MODKEY|Mod1Mask,              XK_l,      incrgaps,       {.i = -1 } },
 	{ MODKEY|Mod1Mask|ShiftMask,    XK_h,      incrogaps,      {.i = +1 } },

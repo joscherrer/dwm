@@ -99,6 +99,7 @@ static const char *decrvol[] = { "volmgr", "--change-volume", "-1", NULL };
 static const char *mutevol[] = { "volmgr", "--toggle-mute", NULL };
 static const char *shutrest[] = { "shut-rest", NULL };
 static const char *lockscreen[] = { "slock", NULL };
+static const char *notes[] = { "notes", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -150,6 +151,7 @@ static Key keys[] = {
     { False,                        MUTEVOL,   spawn,          {.v = mutevol } },
     { MODKEY|ShiftMask|ControlMask, XK_BackSpace, spawn,       {.v = shutrest } },
     { MODKEY|ShiftMask|ControlMask, XK_l,      spawn,          {.v = lockscreen } },
+    { MODKEY,                       XK_n,      spawn,          {.v = notes } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)

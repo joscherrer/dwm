@@ -1,0 +1,57 @@
+From: Sebastian Sareyko <sl_AT_setq.dk>
+Date: Fri, 27 Sep 2019 15:28:39 +0200
+
+Doing a multi-head setup using other means than Xinerama may lead to
+XineramaQueryScreens() returning the screens in an order that does not
+actually represent the actual screen layout. This in turn may result
+in dwm using the "wrong" monitor in monitor related
+functions (focusmon(), tagmon(), applying rules, ...).
+
+This change sorts the list of unique screens by their horizontal
+origin to alleviate this problem.
+The change does not solve (and may even provoke) the described issue
+when screens are not only placed next to each other in a horizontal
+way but also vertically.
+
+---
+ dwm.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+diff --git a/dwm.c b/dwm.c
+index 4465af1..a8e9467 100644
+--- a/dwm.c
++++ b/dwm.c
+_AT_@ -1847,6 +1847,24 @@ updateclientlist()
+ 				(unsigned char *) &(c->win), 1);
+ }
+ 
++#ifdef XINERAMA
++void
++sortscreens(XineramaScreenInfo *screens, int n)
++{
++	int i, j;
++	XineramaScreenInfo *screen = ecalloc(1, sizeof(XineramaScreenInfo));
++
++	for (i = 0; i < n; i++)
++		for (j = i + 1; j < n; j++)
++			if (screens[i].x_org > screens[j].x_org) {
++				memcpy(&screen[0], &screens[i], sizeof(XineramaScreenInfo));
++				memcpy(&screens[i], &screens[j], sizeof(XineramaScreenInfo));
++				memcpy(&screens[j], &screen[0], sizeof(XineramaScreenInfo));
++			}
++	XFree(screen);
++}
++#endif /* XINERAMA */
++
+ int
+ updategeom(void)
+ {
+_AT_@ -1868,6 +1886,7 @@ updategeom(void)
+ 				memcpy(&unique[j++], &info[i], sizeof(XineramaScreenInfo));
+ 		XFree(info);
+ 		nn = j;
++		sortscreens(unique, nn);
+ 		if (n <= nn) { /* new monitors available */
+ 			for (i = 0; i < (nn - n); i++) {
+ 				for (m = mons; m && m->next; m = m->next);
+-- 
+2.21.0
